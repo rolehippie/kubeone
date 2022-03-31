@@ -1,0 +1,302 @@
+# Standards: 1.2
+---
+# @var kubeone_release_version:description: Version of KubeOne to download and use
+kubeone_release_version: 1.4.0
+
+# @var kubeone_release_download:description: URL to download the KubeOne release from
+kubeone_release_download: https://github.com/kubermatic/kubeone/releases/download/v{{ kubeone_release_version }}/kubeone_{{ kubeone_release_version }}_linux_amd64.zip
+
+# @var kubeone_install_path:description: Installation path for the release
+kubeone_install_path: "/opt/kubeone-{{ kubeone_release_version }}"
+
+# @var kubeone_log_path:description: Path to logfile where apply output gets written to
+kubeone_log_path: "/var/log/kubeone{{ '-' + kubeone_cluster_name if kubeone_cluster_name | default(False) else '' }}.log"
+
+# @var kubeone_manifest_version:description: Manifest version for the KubeOne configuration
+kubeone_manifest_version: v1beta2
+
+# @var kubeone_kubernetes_version:description: Kubernetes version to install
+kubeone_kubernetes_version: 1.22.8
+
+# @var kubeone_cluster_name:description: Name of the Kubernetes cluster
+kubeone_cluster_name:
+
+# @var kubeone_apiserver_host:description: Domain or address of the Kubernetes API
+kubeone_apiserver_host:
+
+# @var kubeone_apiserver_port:description: Port of the Kubernetes API
+kubeone_apiserver_port: 6443
+
+# @var kubeone_apiserver_sans:description: Additional domains or addresses for the Kubernetes API
+kubeone_apiserver_sans: []
+
+# @var kubeone_machine_controller:description: Install the machine controller
+kubeone_machine_controller: True
+
+# @var kubeone_configure_repositories:description: Configure repositories for system packages
+kubeone_configure_repositories: True
+
+# @var kubeone_pod_subnet:description: Pod subnet within Kubernetes
+kubeone_pod_subnet: 10.244.0.0/16
+
+# @var kubeone_service_subnet:description: Service subnet within Kubernetes
+kubeone_service_subnet: 10.96.0.0/12
+
+# @var kubeone_domain_name:description: Cluster domain name
+kubeone_domain_name: cluster.local
+
+# @var kubeone_node_ports:description: Node port range
+kubeone_node_ports: 30000-32767
+
+# @var kubeone_cni_provider:description: CNI provider to use
+kubeone_cni_provider: canal
+
+# @var kubeone_cni_config:description: Configuration for the CNI provider
+kubeone_cni_config: |
+  mtu: 1450
+
+# @var kubeone_cloud_provider:description: Configuration for the cloud provider
+kubeone_cloud_provider: |
+  none: {}
+
+# @var kubeone_control_plane:description: Host list for control plane
+# @var kubeone_control_plane:example: >
+# kubeone_control_plane:
+#   - publicAddress: 192.168.1.10
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+#   - publicAddress: 192.168.1.11
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+#   - publicAddress: 192.168.1.12
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+# @end
+kubeone_control_plane: []
+
+# @var kubeone_static_workers:description: Host list for static workers
+# @var kubeone_static_workers:example: >
+# kubeone_static_workers:
+#   - publicAddress: 192.168.1.10
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+#   - publicAddress: 192.168.1.11
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+#   - publicAddress: 192.168.1.12
+#     sshUsername: oper
+#     sshPrivateKeyFile: /path/to/private/key
+# @end
+kubeone_static_workers: []
+
+# @var kubeone_dynamic_workers:description: Config list for dynamic workers
+# @var kubeone_dynamic_workers:example: >
+# kubeone_dynamic_workers:
+#   - name: worker1
+#     replicas: 5
+#     providerSpec:
+#       ...
+#   - name: worker2
+#     replicas: 3
+#     providerSpec:
+#       ...
+# @end
+kubeone_dynamic_workers: []
+
+# @var kubeone_openid_connect_enable:description: Enable OpenID Connect feature
+kubeone_openid_connect_enable: False
+
+# @var kubeone_openid_connect_config:description: Configuration for OpenID Connect
+kubeone_openid_connect_config:
+
+# @var kubeone_encryption_providers_enable:description: Enable encryption provider feature
+kubeone_encryption_providers_enable: True
+
+# @var kubeone_encryption_providers_config:description: Configuration for encrpytion providers
+kubeone_encryption_providers_config:
+
+# @var kubeone_pod_node_selector_enable:description: Enable pod node selector feature
+kubeone_pod_node_selector_enable: False
+
+# @var kubeone_pod_node_selector_config:description: Configuration for pod node selector
+kubeone_pod_node_selector_config:
+
+# @var kubeone_static_auditlog_enable:description: Enable static auditlog feature
+kubeone_static_auditlog_enable: False
+
+# @var kubeone_static_auditlog_config:description: Configuration for static auditlog
+kubeone_static_auditlog_config:
+
+# @var kubeone_dynamic_auditlog_enable:description: Enable dynamic auditlog feature
+kubeone_dynamic_auditlog_enable: False
+
+# @var kubeone_metrics_server_enable:description: Enable metrics server feature
+kubeone_metrics_server_enable: True
+
+# @var kubeone_addons_enable:description: Enable addons
+kubeone_addons_enable: False
+
+# @var kubeone_addons_path:description: Path to installed addons
+kubeone_addons_path: "{{ kubeone_install_path }}/addons"
+
+# @var kubeone_addons_general:description: General list of addons to enable
+# @var kubeone_addons_general:example: >
+# kubeone_addons_general:
+#   - name: addon1
+#     params:
+#       param1: value1
+#       param2: value2
+#       param3: value3
+#   - name: addon2
+#     params:
+#       param1: value1
+#       param2: value2
+#       param3: value3
+#     delete: True
+# @end
+kubeone_addons_general: []
+
+# @var kubeone_addons_extra:description: Extra list of addons to enable
+# @var kubeone_addons_extra:example: >
+# kubeone_addons_extra:
+#   - name: addon1
+#     params:
+#       param1: value1
+#       param2: value2
+#       param3: value3
+#   - name: addon2
+#     params:
+#       param1: value1
+#       param2: value2
+#       param3: value3
+#     delete: True
+# @end
+kubeone_addons_extra: []
+
+# @var kubeone_config_path:description: Path to cluster configuration
+kubeone_config_path: /etc/kubeone/cluster.yml
+
+# @var kubeone_config_content:description: Content of the cluster configuration
+kubeone_config_content: |
+  apiVersion: kubeone.k8c.io/{{ kubeone_manifest_version }}
+  kind: KubeOneCluster
+  name: {{ kubeone_cluster_name }}
+
+  versions:
+    kubernetes: {{ kubeone_kubernetes_version }}
+
+  apiEndpoint:
+    host: {{ kubeone_apiserver_host }}
+    port: {{ kubeone_apiserver_port }}
+    alternativeNames: {{ kubeone_apiserver_sans | to_yaml }}
+
+  machineController:
+    deploy: {{ kubeone_machine_controller }}
+
+  systemPackages:
+    configureRepositories: {{ kubeone_configure_repositories }}
+
+  clusterNetwork:
+    podSubnet: {{ kubeone_pod_subnet }}
+    serviceSubnet: {{ kubeone_service_subnet }}
+    serviceDomainName: {{ kubeone_domain_name }}
+    nodePortRange: {{ kubeone_node_ports }}
+    cni:
+      {{ kubeone_cni_provider }}:
+        {{ kubeone_cni_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+  {% if kubeone_cloud_provider | default(False) %}
+
+  cloudProvider:
+    {{ kubeone_cloud_provider | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=False) | trim }}
+  {% endif %}
+  {% if kubeone_control_plane | default(False) %}
+
+  controlPlane:
+    hosts:
+      {{ kubeone_control_plane | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+  {% endif %}
+  {% if kubeone_static_workers | default(False) %}
+
+  staticWorkers:
+    hosts:
+      {{ kubeone_static_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+  {% endif %}
+  {% if kubeone_dynamic_workers | default(False) %}
+
+  dynamicWorkers:
+    hosts:
+      {{ kubeone_dynamic_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+  {% endif %}
+
+  features:
+  {% if kubeone_openid_connect_enable | default(False) %}
+    openidConnect:
+      enable: {{ kubeone_openid_connect_enable }}
+  {% if kubeone_openid_connect_config | default(False) %}
+      config:
+        {{ kubeone_openid_connect_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+  {% endif %}
+  {% endif %}
+  {% if kubeone_encryption_providers_enable | default(False) %}
+    encryptionProviders:
+      enable: {{ kubeone_encryption_providers_enable }}
+  {% if kubeone_encryption_providers_config | default(False) %}
+      customEncryptionConfiguration:
+        {{ kubeone_encryption_providers_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+  {% endif %}
+  {% endif %}
+  {% if kubeone_pod_node_selector_enable | default(False) %}
+    podNodeSelector:
+      enable: {{ kubeone_pod_node_selector_enable }}
+  {% if kubeone_pod_node_selector_config | default(False) %}
+      config:
+        {{ kubeone_pod_node_selector_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+  {% endif %}
+  {% endif %}
+  {% if kubeone_static_auditlog_enable | default(False) %}
+    staticAuditLog:
+      enable: {{ kubeone_static_auditlog_enable }}
+  {% if kubeone_static_auditlog_config | default(False) %}
+      config:
+        {{ kubeone_static_auditlog_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+  {% endif %}
+  {% endif %}
+    dynamicAuditLog:
+      enable: {{ kubeone_dynamic_auditlog_enable }}
+    metricsServer:
+      enable: {{ kubeone_metrics_server_enable }}
+
+  addons:
+    enable: {{ kubeone_addons_enable }}
+    path: {{ kubeone_addons_path }}
+  {% if kubeone_addons_general + kubeone_addons_extra | default(False) %}
+    addons:
+  {% for item in kubeone_addons_general + kubeone_addons_extra %}
+      - name: {{ item.name }}
+  {% if item.params | default(False) %}
+        params:
+          {{ item.params | to_nice_yaml(indent=2) | indent(width=8, first=False) }}
+  {% endif %}
+        delete: {{ item.delete | default(False) }}
+  {% endfor %}
+  {% endif %}
+
+# @var kubeone_force_apply:description: Force apply even if config has not changed
+kubeone_force_apply: False
+
+# @var kubeone_upgrade_machine_deployments:description: Upgrade machine deployments on next apply
+kubeone_upgrade_machine_deployments: True
+
+# @var kubeone_force_install:description: Force install on next apply
+kubeone_force_install: False
+
+# @var kubeone_force_upgrade:description: Force upgrade on next apply
+kubeone_force_upgrade: False
+
+# @var kubeone_rotate_encryption_key:description: Rotate encryption keys on next apply
+kubeone_rotate_encryption_key: False
+
+# @var kubeone_environment_variables:description: Environment variables used by KubeOne
+kubeone_environment_variables:
+
+...

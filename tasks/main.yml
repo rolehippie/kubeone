@@ -1,0 +1,105 @@
+# Standards: 1.2
+---
+- name: Install required packages
+  loop:
+    - unzip
+  package:
+    name: "{{ item }}"
+    state: present
+  tags:
+    - kubeone
+
+- name: Create install directory
+  file:
+    path: "{{ kubeone_install_path }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+    state: directory
+  tags:
+    - kubeone
+
+- name: Install kubeone release
+  unarchive:
+    src: "{{ kubeone_release_download }}"
+    dest: "{{ kubeone_install_path }}"
+    creates: "{{ kubeone_install_path }}/kubeone"
+    remote_src: True
+    owner: root
+    group: root
+  tags:
+    - kubeone
+
+- name: Remove unused files
+  loop:
+    - LICENSE
+    - README.md
+    - CHANGELOG.md
+    - examples/
+    - hack/
+  file:
+    path: "{{ kubeone_install_path }}/{{ item }}"
+    state: absent
+  tags:
+    - kubeone
+
+- name: Create config directory
+  file:
+    path: "{{ kubeone_config_path | dirname }}"
+    recurse: True
+    owner: root
+    group: root
+    mode: u=rwX,g=,o=
+    state: directory
+  tags:
+    - kubeone
+
+- name: Create logging directory
+  file:
+    path: "{{ kubeone_log_path | dirname }}"
+    recurse: True
+    owner: root
+    group: root
+    mode: u=rwX,g=,o=
+    state: directory
+  tags:
+    - kubeone
+
+- name: Write cluster config
+  register: kubeone_config_file
+  copy:
+    content: "{{ kubeone_config_content | from_yaml | to_nice_yaml(indent=2) }}"
+    dest: "{{ kubeone_config_path }}"
+    owner: root
+    group: root
+    mode: u=rw,g=,o=
+  tags:
+    - kubeone
+
+- name: Apply cluster config
+  when: kubeone_force_apply or kubeone_config_file.changed
+  environment: "{{ kubeone_environment_variables }}"
+  shell:
+    cmd: |
+      {{ kubeone_install_path }}/kubeone \
+         --verbose --manifest {{ kubeone_config_path }} \
+        apply \
+      {% if kubeone_upgrade_machine_deployments %}
+        --upgrade-machine-deployments \
+      {% endif %}
+      {% if kubeone_force_install %}
+        --force-install \
+      {% endif %}
+      {% if kubeone_force_upgrade %}
+        --force-upgrade \
+      {% endif %}
+      {% if kubeone_rotate_encryption_key %}
+        --rotate-encryption-key \
+      {% endif %}
+        --auto-approve 2>&1 | tee -a {{ kubeone_log_path }}
+    chdir: "{{ kubeone_config_path | dirname }}"
+  tags:
+    - kubeone
+    - skip_ansible_later
+
+...
