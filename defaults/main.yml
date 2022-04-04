@@ -1,7 +1,7 @@
 # Standards: 1.2
 ---
 # @var kubeone_release_version:description: Version of KubeOne to download and use
-kubeone_release_version: 1.4.0
+kubeone_release_version: 1.4.1
 
 # @var kubeone_release_download:description: URL to download the KubeOne release from
 kubeone_release_download: https://github.com/kubermatic/kubeone/releases/download/v{{ kubeone_release_version }}/kubeone_{{ kubeone_release_version }}_linux_amd64.zip
@@ -134,7 +134,7 @@ kubeone_dynamic_auditlog_enable: False
 kubeone_metrics_server_enable: True
 
 # @var kubeone_addons_enable:description: Enable addons
-kubeone_addons_enable: False
+kubeone_addons_enable: True
 
 # @var kubeone_addons_path:description: Path to installed addons
 kubeone_addons_path: "{{ kubeone_install_path }}/addons"
@@ -142,34 +142,56 @@ kubeone_addons_path: "{{ kubeone_install_path }}/addons"
 # @var kubeone_addons_general:description: General list of addons to enable
 # @var kubeone_addons_general:example: >
 # kubeone_addons_general:
-#   - name: addon1
+#   - name: backup-restic
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/backups-restic/backups-restic.yaml
 #     params:
-#       param1: value1
-#       param2: value2
-#       param3: value3
-#   - name: addon2
+#       resticPassword: p455w0rd
+#   - name: unattended-upgrades
+#     file: apt.yml
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
+#   - name: unattended-upgrades
+#     file: yum.yml
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
+#   - name: dummy1
+#     content: |
+#       apiVersion: apps/v1
+#       kind: DaemonSet
+#       ...
 #     params:
 #       param1: value1
 #       param2: value2
 #       param3: value3
 #     delete: True
+#   - name: dummy1
+#     state: absent
 # @end
 kubeone_addons_general: []
 
 # @var kubeone_addons_extra:description: Extra list of addons to enable
 # @var kubeone_addons_extra:example: >
 # kubeone_addons_extra:
-#   - name: addon1
+#   - name: backup-restic
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/backups-restic/backups-restic.yaml
 #     params:
-#       param1: value1
-#       param2: value2
-#       param3: value3
-#   - name: addon2
+#       resticPassword: p455w0rd
+#   - name: unattended-upgrades
+#     file: apt.yml
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
+#   - name: unattended-upgrades
+#     file: yum.yml
+#     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
+#   - name: dummy1
+#     content: |
+#       apiVersion: apps/v1
+#       kind: DaemonSet
+#       ...
 #     params:
 #       param1: value1
 #       param2: value2
 #       param3: value3
 #     delete: True
+#   - name: dummy1
+#     state: absent
 # @end
 kubeone_addons_extra: []
 

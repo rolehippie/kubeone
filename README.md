@@ -71,7 +71,7 @@ Enable addons
 #### Default value
 
 ```YAML
-kubeone_addons_enable: false
+kubeone_addons_enable: true
 ```
 
 ### kubeone_addons_extra
@@ -88,17 +88,28 @@ kubeone_addons_extra: []
 
 ```YAML
 kubeone_addons_extra:
-  - name: addon1
+  - name: backup-restic
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/backups-restic/backups-restic.yaml
     params:
-      param1: value1
-      param2: value2
-      param3: value3
-  - name: addon2
+      resticPassword: p455w0rd
+  - name: unattended-upgrades
+    file: apt.yml
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
+  - name: unattended-upgrades
+    file: yum.yml
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
+  - name: dummy1
+    content: |
+      apiVersion: apps/v1
+      kind: DaemonSet
+      ...
     params:
       param1: value1
       param2: value2
       param3: value3
     delete: True
+  - name: dummy1
+    state: absent
 ```
 
 ### kubeone_addons_general
@@ -115,17 +126,28 @@ kubeone_addons_general: []
 
 ```YAML
 kubeone_addons_general:
-  - name: addon1
+  - name: backup-restic
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/backups-restic/backups-restic.yaml
     params:
-      param1: value1
-      param2: value2
-      param3: value3
-  - name: addon2
+      resticPassword: p455w0rd
+  - name: unattended-upgrades
+    file: apt.yml
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
+  - name: unattended-upgrades
+    file: yum.yml
+    url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
+  - name: dummy1
+    content: |
+      apiVersion: apps/v1
+      kind: DaemonSet
+      ...
     params:
       param1: value1
       param2: value2
       param3: value3
     delete: True
+  - name: dummy1
+    state: absent
 ```
 
 ### kubeone_addons_path
@@ -610,7 +632,7 @@ Version of KubeOne to download and use
 #### Default value
 
 ```YAML
-kubeone_release_version: 1.4.0
+kubeone_release_version: 1.4.1
 ```
 
 ### kubeone_rotate_encryption_key

@@ -23,22 +23,103 @@
   unarchive:
     src: "{{ kubeone_release_download }}"
     dest: "{{ kubeone_install_path }}"
-    creates: "{{ kubeone_install_path }}/kubeone"
+    include:
+      - kubeone
     remote_src: True
     owner: root
     group: root
   tags:
     - kubeone
 
-- name: Remove unused files
-  loop:
-    - LICENSE
-    - README.md
-    - CHANGELOG.md
-    - examples/
-    - hack/
+- name: Create addons directory
   file:
-    path: "{{ kubeone_install_path }}/{{ item }}"
+    path: "{{ kubeone_install_path }}/addons"
+    recurse: True
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+    state: directory
+  tags:
+    - kubeone
+
+- name: Create addon directory
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.state | default("present") == "present"
+  file:
+    url: "{{ item.url }}"
+    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
+    owner: root
+    group: root
+    mode: o=rwx,g=rx,o=
+    state: directory
+  tags:
+    - kubeone
+
+- name: Addon from url
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.url | default(False) and item.state | default("present") == "present"
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    owner: root
+    group: root
+    mode: o=rw,g=r,o=
+  tags:
+    - kubeone
+
+- name: Addon from content
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.content | default(False) and item.state | default("present") == "present"
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    owner: root
+    group: root
+    mode: o=rw,g=r,o=
+  tags:
+    - kubeone
+
+- name: Addon from file
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.src | default(False) and item.state | default("present") == "present"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    owner: root
+    group: root
+    mode: o=rw,g=r,o=
+  tags:
+    - kubeone
+
+- name: Addon from template
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.template | default(False) and item.state | default("present") == "present"
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    owner: root
+    group: root
+    mode: o=rw,g=r,o=
+  tags:
+    - kubeone
+
+- name: Delete defined addon
+  loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.state | default("present") == "absent"
+  file:
+    path: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
     state: absent
   tags:
     - kubeone
