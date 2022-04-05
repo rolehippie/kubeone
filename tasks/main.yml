@@ -48,8 +48,7 @@
     label: "{{ item.name }}"
   when: item.state | default("present") == "present"
   file:
-    url: "{{ item.url }}"
-    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
+    path: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
     owner: root
     group: root
     mode: o=rwx,g=rx,o=
