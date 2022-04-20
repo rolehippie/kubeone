@@ -246,8 +246,7 @@ kubeone_config_content: |
   {% if kubeone_dynamic_workers | default(False) %}
 
   dynamicWorkers:
-    hosts:
-      {{ kubeone_dynamic_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+    {{ kubeone_dynamic_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=False) | trim }}
   {% endif %}
 
   features:

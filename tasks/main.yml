@@ -51,7 +51,7 @@
     path: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
     owner: root
     group: root
-    mode: o=rwx,g=rx,o=
+    mode: o=rwx,g=rx,o=rx
     state: directory
   tags:
     - kubeone
