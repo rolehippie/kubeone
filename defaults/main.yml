@@ -1,7 +1,7 @@
 # Standards: 1.2
 ---
 # @var kubeone_release_version:description: Version of KubeOne to download and use
-kubeone_release_version: 1.4.1
+kubeone_release_version: 1.4.2
 
 # @var kubeone_release_download:description: URL to download the KubeOne release from
 kubeone_release_download: https://github.com/kubermatic/kubeone/releases/download/v{{ kubeone_release_version }}/kubeone_{{ kubeone_release_version }}_linux_amd64.zip
