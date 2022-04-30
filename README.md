@@ -631,7 +631,7 @@ Version of KubeOne to download and use
 #### Default value
 
 ```YAML
-kubeone_release_version: 1.4.1
+kubeone_release_version: 1.4.2
 ```
 
 ### kubeone_rotate_encryption_key
