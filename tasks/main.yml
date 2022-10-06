@@ -53,7 +53,7 @@
     recurse: True
     owner: root
     group: root
-    mode: u=rwx,g=rx,o=rx
+    mode: u=rwx,g=,o=
     state: directory
   tags:
     - kubeone
@@ -67,7 +67,7 @@
     path: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}"
     owner: root
     group: root
-    mode: o=rwx,g=rx,o=rx
+    mode: o=rwx,g=,o=
     state: directory
   tags:
     - kubeone
@@ -82,7 +82,7 @@
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
-    mode: o=rw,g=r,o=
+    mode: o=rw,g=,o=
   tags:
     - kubeone
 
@@ -96,7 +96,7 @@
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
-    mode: o=rw,g=r,o=
+    mode: o=rw,g=,o=
   tags:
     - kubeone
 
@@ -110,7 +110,7 @@
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
-    mode: o=rw,g=r,o=
+    mode: o=rw,g=,o=
   tags:
     - kubeone
 
@@ -124,7 +124,7 @@
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
-    mode: o=rw,g=r,o=
+    mode: o=rw,g=,o=
   tags:
     - kubeone
 
