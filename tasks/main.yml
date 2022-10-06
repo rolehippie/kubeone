@@ -31,9 +31,25 @@
   tags:
     - kubeone
 
+- name: Symlink kubeone executable
+  file:
+    src: "{{ kubeone_install_path }}/kubeone"
+    dest: "/usr/bin/kubeone-{{ kubeone_release_version }}"
+    owner: root
+    group: root
+    state: link
+  tags:
+    - kubeone
+
+- name: Fact addons path
+  set_fact:
+    kubeone_addons_path: "{{ kubeone_config_path | dirname }}/addons"
+  tags:
+    - kubeone
+
 - name: Create addons directory
   file:
-    path: "{{ kubeone_install_path }}/addons"
+    path: "{{ kubeone_addons_path }}"
     recurse: True
     owner: root
     group: root
@@ -48,7 +64,7 @@
     label: "{{ item.name }}"
   when: item.state | default("present") == "present"
   file:
-    path: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
+    path: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}"
     owner: root
     group: root
     mode: o=rwx,g=rx,o=rx
@@ -63,7 +79,7 @@
   when: item.url | default(False) and item.state | default("present") == "present"
   get_url:
     url: "{{ item.url }}"
-    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
     mode: o=rw,g=r,o=
@@ -77,7 +93,7 @@
   when: item.content | default(False) and item.state | default("present") == "present"
   copy:
     content: "{{ item.content }}"
-    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
     mode: o=rw,g=r,o=
@@ -91,7 +107,7 @@
   when: item.src | default(False) and item.state | default("present") == "present"
   copy:
     src: "{{ item.src }}"
-    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
     mode: o=rw,g=r,o=
@@ -105,7 +121,7 @@
   when: item.template | default(False) and item.state | default("present") == "present"
   template:
     src: "{{ item.template }}"
-    dest: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
+    dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
     group: root
     mode: o=rw,g=r,o=
@@ -118,7 +134,7 @@
     label: "{{ item.name }}"
   when: item.state | default("present") == "absent"
   file:
-    path: "{{ item.path | default(kubeone_install_path + '/addons') }}/{{ item.name }}"
+    path: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}"
     state: absent
   tags:
     - kubeone
@@ -161,7 +177,7 @@
   environment: "{{ kubeone_environment_variables }}"
   shell:
     cmd: |
-      {{ kubeone_install_path }}/kubeone \
+      kubeone-{{ kubeone_release_version }} \
          --verbose --manifest {{ kubeone_config_path }} \
         apply \
       {% if kubeone_upgrade_machine_deployments %}
