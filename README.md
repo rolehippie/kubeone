@@ -509,7 +509,7 @@ Kubernetes version to install
 #### Default value
 
 ```YAML
-kubeone_kubernetes_version: 1.24.6
+kubeone_kubernetes_version: 1.24.10
 ```
 
 ### kubeone_log_path
@@ -631,7 +631,7 @@ Version of KubeOne to download and use
 #### Default value
 
 ```YAML
-kubeone_release_version: 1.5.1
+kubeone_release_version: 1.5.5
 ```
 
 ### kubeone_rotate_encryption_key
