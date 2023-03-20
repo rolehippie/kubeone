@@ -198,4 +198,16 @@
     - kubeone
     - skip_ansible_later
 
+- name: Document kubeone version
+  when: kubeone_force_apply or kubeone_config_file.changed
+  copy:
+    content: "{{ kubeone_release_version }}"
+    dest: "{{ kubeone_config_path | dirname }}/version.txt"
+    owner: root
+    group: root
+    mode: u=rw,g=rw,o=
+  tags:
+    - kubeone
+    - skip_ansible_later
+
 ...
