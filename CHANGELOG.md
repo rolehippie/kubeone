@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/rolehippie/kubeone/compare/v1.1.0...v1.2.0) (2023-03-27)
+
+
+### Features
+
+* upgrade kubeone and kubernetes version ([0ea8cbc](https://github.com/rolehippie/kubeone/commit/0ea8cbc9fce7bb670d7722c1cccad3c275ebb20b))
+* write down used kubeone version ([4da6e2a](https://github.com/rolehippie/kubeone/commit/4da6e2ac966b3cdebcce160c756eafccf73db064))
+
 ## [1.1.0](https://github.com/rolehippie/kubeone/compare/v1.0.0...v1.1.0) (2023-01-30)
 
 
