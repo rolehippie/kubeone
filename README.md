@@ -5,7 +5,7 @@
 [![Readme Workflow](https://github.com/rolehippie/kubeone/actions/workflows/readme.yml/badge.svg)](https://github.com/rolehippie/kubeone/actions/workflows/readme.yml)
 [![Galaxy Workflow](https://github.com/rolehippie/kubeone/actions/workflows/galaxy.yml/badge.svg)](https://github.com/rolehippie/kubeone/actions/workflows/galaxy.yml)
 [![License: Apache-2.0](https://img.shields.io/github/license/rolehippie/kubeone)](https://github.com/rolehippie/kubeone/blob/master/LICENSE)
-[![Ansible Role](https://img.shields.io/ansible/role/58617)](https://galaxy.ansible.com/rolehippie/kubeone)
+[![Ansible Role](https://img.shields.io/badge/role-rolehippie.kubeone-blue)](https://galaxy.ansible.com/rolehippie/kubeone)
 
 Ansible role to install KubeOne and bootstrap Kubernetes.
 
