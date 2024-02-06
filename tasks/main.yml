@@ -2,14 +2,14 @@
 - name: Install required packages
   loop:
     - unzip
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   tags:
     - kubeone
 
 - name: Create install directory
-  file:
+  ansible.builtin.file:
     path: "{{ kubeone_install_path }}"
     owner: root
     group: root
@@ -19,7 +19,7 @@
     - kubeone
 
 - name: Install kubeone release
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ kubeone_release_download }}"
     dest: "{{ kubeone_install_path }}"
     include:
@@ -31,7 +31,7 @@
     - kubeone
 
 - name: Symlink kubeone executable
-  file:
+  ansible.builtin.file:
     src: "{{ kubeone_install_path }}/kubeone"
     dest: "/usr/bin/kubeone-{{ kubeone_release_version }}"
     owner: root
@@ -41,13 +41,13 @@
     - kubeone
 
 - name: Fact addons path
-  set_fact:
+  ansible.builtin.set_fact:
     kubeone_addons_path: "{{ kubeone_config_path | dirname }}/addons"
   tags:
     - kubeone
 
 - name: Create addons directory
-  file:
+  ansible.builtin.file:
     path: "{{ kubeone_addons_path }}"
     recurse: True
     owner: root
@@ -62,7 +62,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.state | default("present") == "present"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}"
     owner: root
     group: root
@@ -76,7 +76,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.url | default(False) and item.state | default("present") == "present"
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ item.url }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
@@ -90,7 +90,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.content | default(False) and item.state | default("present") == "present"
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
@@ -104,7 +104,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.src | default(False) and item.state | default("present") == "present"
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
@@ -118,7 +118,7 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.template | default(False) and item.state | default("present") == "present"
-  template:
+  ansible.builtin.template:
     src: "{{ item.template }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
     owner: root
@@ -132,14 +132,14 @@
   loop_control:
     label: "{{ item.name }}"
   when: item.state | default("present") == "absent"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}"
     state: absent
   tags:
     - kubeone
 
 - name: Create config directory
-  file:
+  ansible.builtin.file:
     path: "{{ kubeone_config_path | dirname }}"
     recurse: True
     owner: root
@@ -150,7 +150,7 @@
     - kubeone
 
 - name: Create logging directory
-  file:
+  ansible.builtin.file:
     path: "{{ kubeone_log_path | dirname }}"
     recurse: True
     owner: root
@@ -162,7 +162,7 @@
 
 - name: Write cluster config
   register: kubeone_config_file
-  copy:
+  ansible.builtin.copy:
     content: "{{ kubeone_config_content | from_yaml | to_nice_yaml(indent=2) }}"
     dest: "{{ kubeone_config_path }}"
     owner: root
@@ -174,7 +174,7 @@
 - name: Apply cluster config
   when: kubeone_force_apply or kubeone_config_file.changed
   environment: "{{ kubeone_environment_variables }}"
-  shell:
+  ansible.builtin.shell:
     cmd: |
       kubeone-{{ kubeone_release_version }} \
          --verbose --manifest {{ kubeone_config_path }} \
@@ -199,7 +199,7 @@
 
 - name: Document kubeone version
   when: kubeone_force_apply or kubeone_config_file.changed
-  copy:
+  ansible.builtin.copy:
     content: "{{ kubeone_release_version }}"
     dest: "{{ kubeone_config_path | dirname }}/version.txt"
     owner: root

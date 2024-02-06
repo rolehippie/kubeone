@@ -103,10 +103,10 @@ kubeone_addons_extra:
     params:
       resticPassword: p455w0rd
   - name: unattended-upgrades
-    file: apt.yml
+    ansible.builtin.file: apt.yml
     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
   - name: unattended-upgrades
-    file: yum.yml
+    ansible.builtin.file: yum.yml
     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
   - name: dummy1
     content: |
@@ -141,10 +141,10 @@ kubeone_addons_general:
     params:
       resticPassword: p455w0rd
   - name: unattended-upgrades
-    file: apt.yml
+    ansible.builtin.file: apt.yml
     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/apt.yaml
   - name: unattended-upgrades
-    file: yum.yml
+    ansible.builtin.file: yum.yml
     url: https://github.com/kubermatic/kubeone/raw/master/addons/unattended-upgrades/yum.yaml
   - name: dummy1
     content: |
