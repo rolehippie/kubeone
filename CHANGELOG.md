@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0](https://github.com/rolehippie/kubeone/compare/v1.2.0...v2.0.0) (2024-02-12)
+
+
+### Features
+
+* drop support for ubuntu 18.04 ([3c3fa5f](https://github.com/rolehippie/kubeone/commit/3c3fa5f6ab499c6925c9acbca955a34afbe12489))
+* used full qualified collection names ([a389382](https://github.com/rolehippie/kubeone/commit/a3893826ce586691d7eb502baab0acf8c37ee638))
+
 ## [1.2.0](https://github.com/rolehippie/kubeone/compare/v1.1.0...v1.2.0) (2023-03-27)
 
 
