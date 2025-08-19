@@ -1,4 +1,4 @@
-# kubeone
+# workspace
 
 [![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/kubeone)
 [![General Workflow](https://github.com/rolehippie/kubeone/actions/workflows/general.yml/badge.svg)](https://github.com/rolehippie/kubeone/actions/workflows/general.yml)
@@ -529,8 +529,8 @@ Path to logfile where apply output gets written to
 #### Default value
 
 ```YAML
-kubeone_log_path: /var/log/kubeone{{ '-' + kubeone_cluster_name if kubeone_cluster_name
-  | default(False) else '' }}.log
+kubeone_log_path: /var/log/kubeone{{ '-' + kubeone_cluster_name if 
+  kubeone_cluster_name | default(False) else '' }}.log
 ```
 
 ### kubeone_machine_controller
@@ -630,8 +630,10 @@ URL to download the KubeOne release from
 #### Default value
 
 ```YAML
-kubeone_release_download: https://github.com/kubermatic/kubeone/releases/download/v{{
-  kubeone_release_version }}/kubeone_{{ kubeone_release_version }}_linux_amd64.zip
+kubeone_release_download: 
+  https://github.com/kubermatic/kubeone/releases/download/v{{ 
+  kubeone_release_version }}/kubeone_{{ kubeone_release_version 
+  }}_linux_amd64.zip
 ```
 
 ### kubeone_release_version
@@ -724,7 +726,6 @@ kubeone_upgrade_machine_deployments: true
 **_kubeone_**
 
 **_skip_ansible_later_**
-
 
 ## Dependencies
 
