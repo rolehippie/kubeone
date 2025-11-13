@@ -1,4 +1,4 @@
-# workspace
+# kubeone
 
 [![Source Code](https://img.shields.io/badge/github-source%20code-blue?logo=github&logoColor=white)](https://github.com/rolehippie/kubeone)
 [![General Workflow](https://github.com/rolehippie/kubeone/actions/workflows/general.yml/badge.svg)](https://github.com/rolehippie/kubeone/actions/workflows/general.yml)
@@ -117,7 +117,7 @@ kubeone_addons_extra:
       param1: value1
       param2: value2
       param3: value3
-    delete: True
+    delete: true
   - name: dummy1
     state: absent
 ```
@@ -155,7 +155,7 @@ kubeone_addons_general:
       param1: value1
       param2: value2
       param3: value3
-    delete: True
+    delete: true
   - name: dummy1
     state: absent
 ```
@@ -275,61 +275,61 @@ kubeone_config_content: |
     nodePortRange: {{ kubeone_node_ports }}
     cni:
       {{ kubeone_cni_provider }}:
-        {{ kubeone_cni_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
-  {% if kubeone_cloud_provider | default(False) %}
+        {{ kubeone_cni_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=false) | trim }}
+  {% if kubeone_cloud_provider | default(false) %}
 
   cloudProvider:
-    {{ kubeone_cloud_provider | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=False) | trim }}
+    {{ kubeone_cloud_provider | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=false) | trim }}
   {% endif %}
-  {% if kubeone_control_plane | default(False) %}
+  {% if kubeone_control_plane | default(false) %}
 
   controlPlane:
     hosts:
-      {{ kubeone_control_plane | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+      {{ kubeone_control_plane | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=false) | trim }}
   {% endif %}
-  {% if kubeone_static_workers | default(False) %}
+  {% if kubeone_static_workers | default(false) %}
 
   staticWorkers:
     hosts:
-      {{ kubeone_static_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=False) | trim }}
+      {{ kubeone_static_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=4, first=false) | trim }}
   {% endif %}
-  {% if kubeone_dynamic_workers | default(False) %}
+  {% if kubeone_dynamic_workers | default(false) %}
 
   dynamicWorkers:
-    {{ kubeone_dynamic_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=False) | trim }}
+    {{ kubeone_dynamic_workers | from_yaml | to_nice_yaml(indent=2) | indent(width=2, first=false) | trim }}
   {% endif %}
 
   features:
-  {% if kubeone_openid_connect_enable | default(False) %}
+  {% if kubeone_openid_connect_enable | default(false) %}
     openidConnect:
       enable: {{ kubeone_openid_connect_enable }}
-  {% if kubeone_openid_connect_config | default(False) %}
+  {% if kubeone_openid_connect_config | default(false) %}
       config:
-        {{ kubeone_openid_connect_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+        {{ kubeone_openid_connect_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=false) | trim }}
   {% endif %}
   {% endif %}
-  {% if kubeone_encryption_providers_enable | default(False) %}
+  {% if kubeone_encryption_providers_enable | default(false) %}
     encryptionProviders:
       enable: {{ kubeone_encryption_providers_enable }}
-  {% if kubeone_encryption_providers_config | default(False) %}
+  {% if kubeone_encryption_providers_config | default(false) %}
       customEncryptionConfiguration:
-        {{ kubeone_encryption_providers_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+        {{ kubeone_encryption_providers_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=false) | trim }}
   {% endif %}
   {% endif %}
-  {% if kubeone_pod_node_selector_enable | default(False) %}
+  {% if kubeone_pod_node_selector_enable | default(false) %}
     podNodeSelector:
       enable: {{ kubeone_pod_node_selector_enable }}
-  {% if kubeone_pod_node_selector_config | default(False) %}
+  {% if kubeone_pod_node_selector_config | default(false) %}
       config:
-        {{ kubeone_pod_node_selector_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+        {{ kubeone_pod_node_selector_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=false) | trim }}
   {% endif %}
   {% endif %}
-  {% if kubeone_static_auditlog_enable | default(False) %}
+  {% if kubeone_static_auditlog_enable | default(false) %}
     staticAuditLog:
       enable: {{ kubeone_static_auditlog_enable }}
-  {% if kubeone_static_auditlog_config | default(False) %}
+  {% if kubeone_static_auditlog_config | default(false) %}
       config:
-        {{ kubeone_static_auditlog_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=False) | trim }}
+        {{ kubeone_static_auditlog_config | from_yaml | to_nice_yaml(indent=2) | indent(width=6, first=false) | trim }}
   {% endif %}
   {% endif %}
     dynamicAuditLog:
@@ -340,15 +340,15 @@ kubeone_config_content: |
   addons:
     enable: {{ kubeone_addons_enable }}
     path: {{ kubeone_addons_path }}
-  {% if kubeone_addons_general + kubeone_addons_extra | default(False) %}
+  {% if kubeone_addons_general + kubeone_addons_extra | default(false) %}
     addons:
   {% for item in kubeone_addons_general + kubeone_addons_extra %}
       - name: {{ item.name }}
-  {% if item.params | default(False) %}
+  {% if item.params | default(false) %}
         params:
-          {{ item.params | to_nice_yaml(indent=2) | indent(width=8, first=False) }}
+          {{ item.params | to_nice_yaml(indent=2) | indent(width=8, first=false) }}
   {% endif %}
-        delete: {{ item.delete | default(False) }}
+        delete: {{ item.delete | default(false) }}
   {% endfor %}
   {% endif %}
 ```
@@ -530,7 +530,7 @@ Path to logfile where apply output gets written to
 
 ```YAML
 kubeone_log_path: /var/log/kubeone{{ '-' + kubeone_cluster_name if 
-  kubeone_cluster_name | default(False) else '' }}.log
+  kubeone_cluster_name | default(false) else '' }}.log
 ```
 
 ### kubeone_machine_controller

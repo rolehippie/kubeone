@@ -24,7 +24,7 @@
     dest: "{{ kubeone_install_path }}"
     include:
       - kubeone
-    remote_src: True
+    remote_src: true
     owner: root
     group: root
   tags:
@@ -49,7 +49,7 @@
 - name: Create addons directory
   ansible.builtin.file:
     path: "{{ kubeone_addons_path }}"
-    recurse: True
+    recurse: true
     owner: root
     group: root
     mode: u=rwx,g=,o=
@@ -75,7 +75,7 @@
   loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.url | default(False) and item.state | default("present") == "present"
+  when: item.url | default(false) and item.state | default("present") == "present"
   ansible.builtin.get_url:
     url: "{{ item.url }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
@@ -89,7 +89,7 @@
   loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.content | default(False) and item.state | default("present") == "present"
+  when: item.content | default(false) and item.state | default("present") == "present"
   ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
@@ -103,7 +103,7 @@
   loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.src | default(False) and item.state | default("present") == "present"
+  when: item.src | default(false) and item.state | default("present") == "present"
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
@@ -117,7 +117,7 @@
   loop: "{{ kubeone_addons_general + kubeone_addons_extra }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.template | default(False) and item.state | default("present") == "present"
+  when: item.template | default(false) and item.state | default("present") == "present"
   ansible.builtin.template:
     src: "{{ item.template }}"
     dest: "{{ item.path | default(kubeone_addons_path) }}/{{ item.name }}/{{ item.file | default(item.name) }}.yml"
@@ -141,7 +141,7 @@
 - name: Create config directory
   ansible.builtin.file:
     path: "{{ kubeone_config_path | dirname }}"
-    recurse: True
+    recurse: true
     owner: root
     group: root
     mode: u=rwX,g=,o=
@@ -152,7 +152,7 @@
 - name: Create logging directory
   ansible.builtin.file:
     path: "{{ kubeone_log_path | dirname }}"
-    recurse: True
+    recurse: true
     owner: root
     group: root
     mode: u=rwX,g=,o=
