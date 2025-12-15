@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/rolehippie/kubeone/compare/v2.0.0...v2.1.0) (2025-12-15)
+
+
+### Features
+
+* apply new repo structure and update linting ([96a37f5](https://github.com/rolehippie/kubeone/commit/96a37f5ef217661484043604cc93a96567258609))
+
 ## [2.0.0](https://github.com/rolehippie/kubeone/compare/v1.2.0...v2.0.0) (2024-02-12)
 
 
