@@ -529,8 +529,7 @@ Path to logfile where apply output gets written to
 #### Default value
 
 ```YAML
-kubeone_log_path: /var/log/kubeone{{ '-' + kubeone_cluster_name if 
-  kubeone_cluster_name | default(false) else '' }}.log
+kubeone_log_path: /var/log/kubeone{{ '-' + kubeone_cluster_name if kubeone_cluster_name | default(false) else '' }}.log
 ```
 
 ### kubeone_machine_controller
@@ -630,10 +629,7 @@ URL to download the KubeOne release from
 #### Default value
 
 ```YAML
-kubeone_release_download: 
-  https://github.com/kubermatic/kubeone/releases/download/v{{ 
-  kubeone_release_version }}/kubeone_{{ kubeone_release_version 
-  }}_linux_amd64.zip
+kubeone_release_download: https://github.com/kubermatic/kubeone/releases/download/v{{ kubeone_release_version }}/kubeone_{{ kubeone_release_version }}_linux_amd64.zip
 ```
 
 ### kubeone_release_version
