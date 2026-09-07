@@ -721,8 +721,6 @@ kubeone_upgrade_machine_deployments: true
 
 **_kubeone_**
 
-**_skip_ansible_later_**
-
 ## Dependencies
 
 - None
