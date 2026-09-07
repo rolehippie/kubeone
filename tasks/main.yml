@@ -195,7 +195,6 @@
     chdir: "{{ kubeone_config_path | dirname }}"
   tags:
     - kubeone
-    - skip_ansible_later
 
 - name: Document kubeone version
   when: kubeone_force_apply or kubeone_config_file.changed
@@ -207,6 +206,5 @@
     mode: u=rw,g=rw,o=
   tags:
     - kubeone
-    - skip_ansible_later
 
 ...
